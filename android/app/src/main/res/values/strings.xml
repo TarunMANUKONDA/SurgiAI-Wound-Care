@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">Surgical Wound Care</string>
-    <string name="title_activity_main">Surgical Wound Care</string>
-    <string name="package_name">com.surgical.woundcare</string>
-    <string name="custom_url_scheme">com.surgical.woundcare</string>
-</resources>

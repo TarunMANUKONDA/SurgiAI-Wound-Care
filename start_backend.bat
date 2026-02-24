@@ -1,6 +1,6 @@
 @echo off
 echo ====================================
-echo  Surgical Wound Care - FastAPI Backend
+echo  Surgical Wound Care - Django Backend
 echo ====================================
 echo.
 
@@ -10,7 +10,9 @@ cd /d "%~dp0"
 cd backend
 
 :: Activate virtual environment
-if exist "venv" (
+if exist "venv_new" (
+    call venv_new\Scripts\activate
+) else if exist "venv" (
     call venv\Scripts\activate
 ) else (
     echo venv not found in backend directory!
@@ -18,11 +20,11 @@ if exist "venv" (
     exit /b
 )
 
-:: Start the server
-echo Starting FastAPI backend server...
+:: Start the Django server
+echo Starting Django backend server...
 echo Server will be available at: http://localhost:8000
 echo.
 
-python main.py
+python manage.py runserver 0.0.0.0:8000
 
 pause

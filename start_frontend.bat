@@ -1,13 +1,5 @@
 @echo off
-echo ====================================
-echo  Surgical Wound Care - Frontend
-echo ====================================
-echo.
-
-cd /d "%~dp0"
-
-:: Start the development server
-echo Starting Frontend...
+cd /d "%~dp0frontend"
+echo Starting frontend...
 npm run dev
-
 pause
