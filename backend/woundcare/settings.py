@@ -64,22 +64,14 @@ AUTH_USER_MODEL = "api.User"
 # ─────────────────────────────────────────────────────────────
 # DATABASE (PostgreSQL via DATABASE_URL)
 # ─────────────────────────────────────────────────────────────
-_db_url = os.getenv("DATABASE_URL")
-
-if not _db_url:
-    raise Exception("DATABASE_URL not set")
-
-_parsed = _urlparse.urlparse(_db_url)
+import dj_database_url
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": _parsed.path.lstrip("/"),
-        "USER": _parsed.username,
-        "PASSWORD": _parsed.password,
-        "HOST": _parsed.hostname,
-        "PORT": _parsed.port or 5432,
-    }
+    "default": dj_database_url.config(
+        default=os.getenv("DATABASE_URL"),
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
 }
 
 # ─────────────────────────────────────────────────────────────
