@@ -18,10 +18,6 @@ import warnings
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
-with warnings.catch_warnings():
-    warnings.simplefilter("ignore")
-    import tensorflow as tf
-
 from PIL import Image
 
 MODEL_PATH = os.path.join(os.path.dirname(__file__), '..', 'models', 'wound_classifier.tflite')
@@ -54,9 +50,15 @@ def _get_interpreter():
         if not os.path.exists(MODEL_PATH):
             raise FileNotFoundError(f"TFLite model not found at: {MODEL_PATH}")
         print(f"[TFLite] Loading model from {MODEL_PATH}")
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore")
+        try:
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")
+                import tensorflow as tf
             _interpreter = tf.lite.Interpreter(model_path=MODEL_PATH)
+        except ImportError:
+            raise RuntimeError(
+                "TensorFlow is not installed. Please install tensorflow-cpu."
+            )
         _interpreter.allocate_tensors()
         print("[TFLite] Model loaded successfully")
     return _interpreter
