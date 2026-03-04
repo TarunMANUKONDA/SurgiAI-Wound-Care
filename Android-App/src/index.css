@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #2F80ED;
+  --color-success: #27AE60;
+  --color-warning: #F2994A;
+  --color-danger: #EB5757;
+  --color-background: #F9FBFF;
+}
+
+:root {
+  background-color: #F9FBFF;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #F9FBFF;
+  overflow-x: hidden;
+  /* Disable native browser callouts (long-press menus/previews) */
+  -webkit-touch-callout: none;
+  /* Disable text selection globally for a native feel */
+  user-select: none;
+}
+
+/* Allow text selection in input fields and textareas */
+input, textarea {
+  user-select: text;
+  -webkit-touch-callout: default;
+}
+
+/* Ensure content respects safe areas but background fills them */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
+
+.min-h-screen-safe {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}

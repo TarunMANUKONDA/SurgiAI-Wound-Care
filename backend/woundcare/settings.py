@@ -135,11 +135,17 @@ UPLOAD_DIR = str(BASE_DIR / "uploads")
 MAX_FILE_SIZE = int(os.getenv("MAX_FILE_SIZE", 10485760))
 ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png"}
 
+# Email Configuration (SMTP)
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = os.getenv("SMTP_HOST", "smtp.gmail.com")
+EMAIL_PORT = int(os.getenv("SMTP_PORT", 587))
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv("SMTP_USERNAME", "")
+EMAIL_HOST_PASSWORD = os.getenv("SMTP_PASSWORD", "")
+DEFAULT_FROM_EMAIL = f'{os.getenv("SMTP_FROM_NAME", "Surgical Wound Care")} <{os.getenv("SMTP_FROM_EMAIL", "")}>'
+
 SMTP_FROM_EMAIL = os.getenv("SMTP_FROM_EMAIL", "")
 SMTP_FROM_NAME = os.getenv("SMTP_FROM_NAME", "Surgical Wound Care")
-
-# SendGrid API – works on Render, sends to any email, only needs single sender verification
-SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY", "")
 
 # ─────────────────────────────────────────────────────────────
 # Templates

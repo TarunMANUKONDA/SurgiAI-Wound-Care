@@ -1,0 +1,15 @@
+{
+    "short_name": "SurgiAI",
+    "name": "SurgiAI Wound Care Assistant",
+    "icons": [
+        {
+            "src": "logo.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#2F80ED",
+    "background_color": "#ffffff"
+}

@@ -142,23 +142,124 @@ PATIENT REPORTED SYMPTOMS & OBSERVATIONS:
 CLINICAL STRATEGY TO APPLY:
 {clinical_hint}
 """
-        prompt = f"""You are an advanced surgical wound care AI assistant.
-Use the following Risk Assessment Data to generate specific, medical-grade recommendations.
+        # Build severity-specific instruction to prevent generic "monitor closely" advice
+        if severity_level == "Low":
+            severity_instruction = """This wound is healing WELL. Your summary must:
+- START with a POSITIVE, specific statement about the healing progress (e.g. 'Your wound shows excellent granulation...')
+- Give a simple maintenance routine (NOT just 'monitor closely')
+- Mention specific expected healing timeline based on tissue composition
+- Warn ONLY about specific signs that would indicate a change (not generic warnings)"""
+        elif severity_level == "Moderate":
+            severity_instruction = """This wound needs SPECIFIC ATTENTION. Your summary must:
+- START with a clear, specific statement about what tissue finding requires attention
+- Give a concrete action timeline (e.g. 'reassess in 48-72 hours if...')
+- Identify the exact tissue concern (slough %, redness level, etc.)
+- Provide a specific dressing change schedule"""
+        elif severity_level == "High":
+            severity_instruction = """This wound has SIGNIFICANT CONCERNS. Your summary must:
+- START with a direct, urgent statement naming the specific concern
+- Give numbered action steps in order of priority
+- Specify exact when-to-seek-help thresholds (e.g. temperature >38.5°C, spreading >2cm)
+- Recommend specific medical-grade dressings by product type"""
+        else:  # Critical
+            severity_instruction = """URGENT: This wound requires IMMEDIATE MEDICAL ATTENTION. Your summary must:
+- START with 'URGENT:' and name the specific emergency finding
+- First recommendation must be 'Seek immediate medical care'
+- List specific danger signs that are already present
+- Do NOT suggest home care as an alternative to medical treatment"""
 
-{assessment_context}
+        # Build tissue-specific opening context
+        tissue_context = []
+        if black >= 5:
+            tissue_context.append(f"{black:.0f}% necrotic (black) tissue")
+        if (yellow + white) >= 10:
+            tissue_context.append(f"{yellow+white:.0f}% slough/fibrin (yellow/white) tissue")
+        if red >= 30:
+            tissue_context.append(f"{red:.0f}% healthy granulation (red) tissue")
+        if pink >= 20:
+            tissue_context.append(f"{pink:.0f}% epithelial (pink) new skin")
+        tissue_summary_str = ", ".join(tissue_context) if tissue_context else "mixed tissue"
 
-IMPORTANT INSTRUCTIONS:
-1. STRICTLY follow the "CLINICAL STRATEGY TO APPLY".
-2. CLEANING: If Sloughy: gentle irrigation. If Necrotic: warn against soaking dry eschar. If Granulating: "Touch only if necessary".
-3. DRESSING: Recommend specific types (Hydrogel, Alginate, Foam, Honey, Silver). Do NOT just say "bandage".
-4. SUMMARY: Start with a bold statement about the primary issue.
+        prompt = f"""You are a specialized surgical wound care AI.
 
-Provide as JSON:
-- summary, cleaningInstructions, dressingRecommendations, warningsSigns, whenToSeekHelp,
-  dietAdvice, activityRestrictions, expectedHealingTime, followUpSchedule, confidence"""
+TISSUE ANALYSIS RESULTS:
+- Wound Classification: {wound_type} (Confidence: {confidence}%)
+- Risk Level: {severity_level} (Score: {severity_score:.0f}/300)
+- Tissue Inside Wound: {tissue_summary_str}
+- Full tissue breakdown: Red(granulation)={red:.0f}%, Pink(epithelial)={pink:.0f}%, Yellow(slough)={yellow:.0f}%, White(fibrin)={white:.0f}%, Black(necrotic)={black:.0f}%
+- Redness/Inflammation score: {clf.wound.redness_level if clf.wound.redness_level else 'unknown'}/100
+- Discharge: {discharge_type}
 
-        model = genai.GenerativeModel('gemini-1.5-flash')
-        response = model.generate_content(prompt)
+PATIENT SYMPTOMS:
+{symptoms_context if symptoms_context else '- No additional symptoms reported'}
+
+CLINICAL FOCUS: {clinical_hint}
+
+INSTRUCTIONS FOR YOUR RESPONSE:
+{severity_instruction}
+
+ADDITIONAL RULES:
+- NEVER say just 'monitor closely' without specifying WHAT to monitor and WHAT threshold triggers action
+- For dressings: name specific types (Hydrogel/Alginate/Silver foam/Honey/Silicone foam), NOT just 'bandage'
+- For cleaning: specify solution (normal saline/chlorhexidine 0.05%/etc), technique, and frequency
+- expectedHealingTime: give a specific range (e.g. '2-3 weeks' not 'varies')
+
+Respond with ONLY this JSON structure:
+{{
+  "summary": "specific, tissue-based opening statement",
+  "cleaningInstructions": ["step 1", "step 2", ...],
+  "dressingRecommendations": ["specific dressing name: reason", ...],
+  "warningsSigns": ["specific sign: what it means", ...],
+  "whenToSeekHelp": ["specific threshold: action required", ...],
+  "dietAdvice": ["protein: specific recommendation", ...],
+  "activityRestrictions": ["restriction: reason", ...],
+  "expectedHealingTime": "specific time range based on tissue status",
+  "followUpSchedule": ["when: what to check", ...],
+  "confidence": 0-100
+}}"""
+
+        RECOMMEND_MODELS = [
+            'gemini-3-flash-preview',
+            'gemini-3-pro-preview',
+            'gemini-2.5-flash',
+            'gemini-2.5-pro',
+            'gemini-2.0-flash',
+            'gemini-1.5-flash',
+        ]
+
+        response = None
+        for m_name in RECOMMEND_MODELS:
+            model_success = False
+            # 3 retries per model for rate limits
+            for attempt in range(3):
+                try:
+                    model = genai.GenerativeModel(m_name)
+                    # Pass the prompt string. For recommend, we don't necessarily need the image 
+                    # as the tissue analysis is already in the prompt text
+                    response = model.generate_content(prompt)
+                    
+                    if not response or not response.candidates or not response.text:
+                        print(f"[RECOMMEND] Model {m_name} returned empty/blocked response")
+                        break # breaking attempt loop, try next model
+                        
+                    print(f"[RECOMMEND] Model {m_name} succeeded on attempt {attempt+1}")
+                    model_success = True
+                    break
+                except Exception as e:
+                    err_msg = str(e)
+                    print(f"[RECOMMEND] Model {m_name} attempt {attempt+1} failed: {type(e).__name__}: {err_msg[:100]}...")
+                    if "429" in err_msg or "Quota" in err_msg or "ResourceExhausted" in type(e).__name__:
+                        # Exponential backoff: 4s, 5s...
+                        time.sleep(2 ** attempt + 3)
+                    else:
+                        break # not a rate limit, don't retry this model
+
+            if model_success:
+                break
+
+        if not response or not response.text:
+            raise Exception("All recommendation models failed")
+
         response_text = response.text.strip()
 
         if "```json" in response_text:

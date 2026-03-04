@@ -42,11 +42,19 @@ def get_history(request):
             img_path = 'uploads/' + img_path.split('/uploads/')[-1]
         elif img_path.startswith('./'):
             img_path = img_path[2:]
+        elif not img_path.startswith('uploads/') and not img_path.startswith('http'):
+            img_path = 'uploads/' + img_path
+
+        # Build absolute URL if not already one
+        if not img_path.startswith('http'):
+            full_url = request.build_absolute_uri('/' + img_path.lstrip('/'))
+        else:
+            full_url = img_path
 
         wounds_data.append({
             "wound_id": wound.id,
             "case_id": wound.case_id,
-            "image_path": img_path,
+            "image_path": full_url,  # ← Return absolute URL
             "original_filename": wound.original_filename,
             "upload_date": wound.upload_date.isoformat(),
             "status": wound.status,
@@ -115,7 +123,14 @@ def get_cases(request):
                 img = 'uploads/' + img.split('/uploads/')[-1]
             elif img.startswith('./'):
                 img = img[2:]
-            latest_image = img
+            elif not img.startswith('uploads/') and not img.startswith('http'):
+                img = 'uploads/' + img
+            
+            # Build absolute URL if not already one
+            if not img.startswith('http'):
+                latest_image = request.build_absolute_uri('/' + img.lstrip('/'))
+            else:
+                latest_image = img
             
             # Extract latest score and risk from saved analysis
             if latest_wound.analysis:

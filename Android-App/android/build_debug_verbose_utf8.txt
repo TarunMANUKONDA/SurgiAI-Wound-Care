@@ -1,0 +1,257 @@
+﻿Initialized native services in: C:\Users\vamsi88\.gradle\native
+Initialized jansi services in: C:\Users\vamsi88\.gradle\native
+Found daemon DaemonInfo{pid=9284, address=[b92122d4-fa39-4126-a6be-ee6a575808ad port:57260, addresses:[/127.0.0.1]], state=Idle, lastBusy=1772437953810, context=DefaultDaemonContext[uid=2b00c1d3-6aa9-4163-8465-b2321a340a40,javaHome=C:\Program Files\Android\Android Studio\jbr,javaVersion=21,javaVendor=JetBrains s.r.o.,daemonRegistryDir=C:\Users\vamsi88\.gradle\daemon,pid=9284,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-Xmx1536m,-Dfile.encoding=UTF-8,-Duser.country=IN,-Duser.language=en,-Duser.variant]} however its context does not match the desired criteria.
+JVM is incompatible.
+Wanted: DaemonRequestContext{jvmCriteria=C:\Program Files\Java\jdk-22 (no JDK specified, using current Java home), daemonOpts=[-Xmx1536m, -Dfile.encoding=UTF-8, -Duser.country=IN, -Duser.language=en, -Duser.variant], applyInstrumentationAgent=true, nativeServicesMode=ENABLED, priority=NORMAL}
+Actual: DefaultDaemonContext[uid=2b00c1d3-6aa9-4163-8465-b2321a340a40,javaHome=C:\Program Files\Android\Android Studio\jbr,javaVersion=21,javaVendor=JetBrains s.r.o.,daemonRegistryDir=C:\Users\vamsi88\.gradle\daemon,pid=9284,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-Xmx1536m,-Dfile.encoding=UTF-8,-Duser.country=IN,-Duser.language=en,-Duser.variant]
+
+  Looking for a different daemon...
+Found daemon DaemonInfo{pid=360, address=[2b9fe6cc-6d73-4d4d-adda-7e3d872903f4 port:49345, addresses:[/127.0.0.1]], state=Idle, lastBusy=1772438446709, context=DefaultDaemonContext[uid=725de733-d4c8-44f4-9a8d-a7b65c29eb2f,javaHome=C:\Program Files (x86)\Arduino\java,javaVersion=8,javaVendor=Oracle Corporation,daemonRegistryDir=C:\Users\vamsi88\.gradle\daemon,pid=360,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-Xmx1536m,-Dfile.encoding=UTF-8,-Duser.country=IN,-Duser.language=en,-Duser.variant]} however its context does not match the desired criteria.
+JVM is incompatible.
+Wanted: DaemonRequestContext{jvmCriteria=C:\Program Files\Java\jdk-22 (no JDK specified, using current Java home), daemonOpts=[-Xmx1536m, -Dfile.encoding=UTF-8, -Duser.country=IN, -Duser.language=en, -Duser.variant], applyInstrumentationAgent=true, nativeServicesMode=ENABLED, priority=NORMAL}
+Actual: DefaultDaemonContext[uid=725de733-d4c8-44f4-9a8d-a7b65c29eb2f,javaHome=C:\Program Files (x86)\Arduino\java,javaVersion=8,javaVendor=Oracle Corporation,daemonRegistryDir=C:\Users\vamsi88\.gradle\daemon,pid=360,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-Xmx1536m,-Dfile.encoding=UTF-8,-Duser.country=IN,-Duser.language=en,-Duser.variant]
+
+  Looking for a different daemon...
+Found daemon DaemonInfo{pid=21900, address=[67a85591-3b1b-4f5b-9bc1-e2de10cfa7c7 port:52266, addresses:[/127.0.0.1]], state=Idle, lastBusy=1772438433644, context=DefaultDaemonContext[uid=fcc006fb-8cc7-44b7-92d3-ec9e55a2be26,javaHome=C:\Users\vamsi88\.antigravity\extensions\redhat.java-1.53.0-win32-x64\jre\21.0.10-win32-x86_64,javaVersion=21,javaVendor=Eclipse Adoptium,daemonRegistryDir=C:\Users\vamsi88\.gradle\daemon,pid=21900,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-Xmx1536m,-Dfile.encoding=UTF-8,-Duser.country=IN,-Duser.language=en,-Duser.variant]} however its context does not match the desired criteria.
+JVM is incompatible.
+Wanted: DaemonRequestContext{jvmCriteria=C:\Program Files\Java\jdk-22 (no JDK specified, using current Java home), daemonOpts=[-Xmx1536m, -Dfile.encoding=UTF-8, -Duser.country=IN, -Duser.language=en, -Duser.variant], applyInstrumentationAgent=true, nativeServicesMode=ENABLED, priority=NORMAL}
+Actual: DefaultDaemonContext[uid=fcc006fb-8cc7-44b7-92d3-ec9e55a2be26,javaHome=C:\Users\vamsi88\.antigravity\extensions\redhat.java-1.53.0-win32-x64\jre\21.0.10-win32-x86_64,javaVersion=21,javaVendor=Eclipse Adoptium,daemonRegistryDir=C:\Users\vamsi88\.gradle\daemon,pid=21900,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-Xmx1536m,-Dfile.encoding=UTF-8,-Duser.country=IN,-Duser.language=en,-Duser.variant]
+
+  Looking for a different daemon...
+The client will now receive all logging from the daemon (pid: 5056). The daemon log file: C:\Users\vamsi88\.gradle\daemon\8.14.3\daemon-5056.out.log
+Starting 2nd build in daemon [uptime: 42.067 secs, performance: 99%, GC rate: 0.00/s, heap usage: 0% of 1.5 GiB]
+Using 8 worker leases.
+Now considering [C:\Users\vamsi88\Desktop\Surgical-wound-care-app\frontend\android] as hierarchies to watch
+Watching the file system is configured to be enabled if available
+File system watching is active
+Starting Build
+Resolved plugin [id: 'org.gradle.toolchains.foojay-resolver-convention', version: '0.8.0']
+Settings evaluated using settings file 'C:\Users\vamsi88\Desktop\Surgical-wound-care-app\frontend\android\settings.gradle'.
+Projects loaded. Root project using build file 'C:\Users\vamsi88\Desktop\Surgical-wound-care-app\frontend\android\build.gradle'.
+Included projects: [root project 'android', project ':app', project ':capacitor-android', project ':capacitor-app', project ':capacitor-cordova-android-plugins', project ':capacitor-filesystem', project ':capacitor-local-notifications', project ':capacitor-share', project ':capacitor-splash-screen', project ':capacitor-status-bar']
+
+> Configure project :
+Evaluating root project 'android' using build file 'C:\Users\vamsi88\Desktop\Surgical-wound-care-app\frontend\android\build.gradle'.
+
+> Configure project :app
+Evaluating project ':app' using build file 'C:\Users\vamsi88\Desktop\Surgical-wound-care-app\frontend\android\app\build.gradle'.
+Using default execution profile
+google-services.json not found, google-services plugin not applied. Push Notifications won't work
+WARNING: Using flatDir should be avoided because it doesn't support any meta-data formats.
+
+> Configure project :capacitor-android
+Evaluating project ':capacitor-android' using build file 'C:\Users\vamsi88\Desktop\Surgical-wound-care-app\frontend\node_modules\@capacitor\android\capacitor\build.gradle'.
+Using default execution profile
+
+> Configure project :capacitor-app
+Evaluating project ':capacitor-app' using build file 'C:\Users\vamsi88\Desktop\Surgical-wound-care-app\frontend\node_modules\@capacitor\app\android\build.gradle'.
+Using default execution profile
+
+> Configure project :capacitor-cordova-android-plugins
+Evaluating project ':capacitor-cordova-android-plugins' using build file 'C:\Users\vamsi88\Desktop\Surgical-wound-care-app\frontend\android\capacitor-cordova-android-plugins\build.gradle'.
+Using default execution profile
+WARNING: Using flatDir should be avoided because it doesn't support any meta-data formats.
+
+> Configure project :capacitor-filesystem
+Evaluating project ':capacitor-filesystem' using build file 'C:\Users\vamsi88\Desktop\Surgical-wound-care-app\frontend\node_modules\@capacitor\filesystem\android\build.gradle'.
+Using default execution profile
+Build ddb0ce15-911a-467a-80e0-1b7d1fc33b44 is started
+Using Kotlin Gradle Plugin gradle813 variant
+
+> Configure project :capacitor-local-notifications
+Evaluating project ':capacitor-local-notifications' using build file 'C:\Users\vamsi88\Desktop\Surgical-wound-care-app\frontend\node_modules\@capacitor\local-notifications\android\build.gradle'.
+
+> Configure project :capacitor-share
+Evaluating project ':capacitor-share' using build file 'C:\Users\vamsi88\Desktop\Surgical-wound-care-app\frontend\node_modules\@capacitor\share\android\build.gradle'.
+
+> Configure project :capacitor-splash-screen
+Evaluating project ':capacitor-splash-screen' using build file 'C:\Users\vamsi88\Desktop\Surgical-wound-care-app\frontend\node_modules\@capacitor\splash-screen\android\build.gradle'.
+
+> Configure project :capacitor-status-bar
+Evaluating project ':capacitor-status-bar' using build file 'C:\Users\vamsi88\Desktop\Surgical-wound-care-app\frontend\node_modules\@capacitor\status-bar\android\build.gradle'.
+All projects evaluated.
+Task name matched 'assembleDebug'
+Selected primary task 'assembleDebug' from project :
+Variant Selection Exception: org.gradle.internal.component.resolution.failure.exception.VariantSelectionByAttributesException caused by Resolution Failure: org.gradle.internal.component.resolution.failure.type.NoCompatibleVariantsFailure
+Variant Selection Exception: org.gradle.internal.component.resolution.failure.exception.VariantSelectionByAttributesException caused by Resolution Failure: org.gradle.internal.component.resolution.failure.type.NoCompatibleVariantsFailure
+Variant Selection Exception: org.gradle.internal.component.resolution.failure.exception.VariantSelectionByAttributesException caused by Resolution Failure: org.gradle.internal.component.resolution.failure.type.NoCompatibleVariantsFailure
+Variant Selection Exception: org.gradle.internal.component.resolution.failure.exception.VariantSelectionByAttributesException caused by Resolution Failure: org.gradle.internal.component.resolution.failure.type.NoCompatibleVariantsFailure
+Build ddb0ce15-911a-467a-80e0-1b7d1fc33b44 is closed
+
+[Incubating] Problems report is available at: file:///C:/Users/vamsi88/Desktop/Surgical-wound-care-app/frontend/android/build/reports/problems/problems-report.html
+./gradlew : 
+At line:1 char:22
++ ... nd/android; 
+./gradlew 
+assembleDebug --info > 
+build_debug_verbose.txt
+  ...
++                 ~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~
+    + CategoryInfo     
+         : 
+NotSpecified: (:St    
+ring) [], RemoteExcept 
+   ion
+    + 
+FullyQualifiedErrorI   
+ d : NativeCommandError
+ 
+FAILURE: Build failed 
+with an exception.
+
+* What went wrong:
+Could not determine 
+the dependencies of 
+task ':app:compileDebug
+JavaWithJavac'.
+> Could not resolve 
+all dependencies for 
+configuration ':app:deb
+ugCompileClasspath'.
+   > Could not resolve 
+project :capacitor-loca
+l-notifications.
+     Required by:
+         project :app
+      > No matching 
+variant of project :cap
+acitor-local-notificati
+ons was found. The 
+consumer was 
+configured to find a 
+library for use during 
+compile-time, 
+preferably optimized 
+for Android, as well 
+as attribute 'com.andro
+id.build.api.attributes
+.AgpVersionAttr' with 
+value '8.13.0', 
+attribute 'com.android.
+build.api.attributes.Bu
+ildTypeAttr' with 
+value 'debug', 
+attribute 'org.jetbrain
+s.kotlin.platform.type'
+ with value 
+'androidJvm' but:
+          - No 
+variants exist.
+   > Could not resolve 
+project 
+:capacitor-share.
+     Required by:
+         project :app
+      > No matching 
+variant of project 
+:capacitor-share was 
+found. The consumer 
+was configured to find 
+a library for use 
+during compile-time, 
+preferably optimized 
+for Android, as well 
+as attribute 'com.andro
+id.build.api.attributes
+.AgpVersionAttr' with 
+value '8.13.0', 
+attribute 'com.android.
+build.api.attributes.Bu
+ildTypeAttr' with 
+value 'debug', 
+attribute 'org.jetbrain
+s.kotlin.platform.type'
+ with value 
+'androidJvm' but:
+          - No 
+variants exist.
+   > Could not resolve 
+project :capacitor-spla
+sh-screen.
+     Required by:
+         project :app
+      > No matching 
+variant of project :cap
+acitor-splash-screen 
+was found. The 
+consumer was 
+configured to find a 
+library for use during 
+compile-time, 
+preferably optimized 
+for Android, as well 
+as attribute 'com.andro
+id.build.api.attributes
+.AgpVersionAttr' with 
+value '8.13.0', 
+attribute 'com.android.
+build.api.attributes.Bu
+ildTypeAttr' with 
+value 'debug', 
+attribute 'org.jetbrain
+s.kotlin.platform.type'
+ with value 
+'androidJvm' but:
+          - No 
+variants exist.
+   > Could not resolve 
+project 
+:capacitor-status-bar.
+     Required by:
+         project :app
+      > No matching 
+variant of project 
+:capacitor-status-bar 
+was found. The 
+consumer was 
+configured to find a 
+library for use during 
+compile-time, 
+preferably optimized 
+for Android, as well 
+as attribute 'com.andro
+id.build.api.attributes
+.AgpVersionAttr' with 
+value '8.13.0', 
+attribute 'com.android.
+build.api.attributes.Bu
+ildTypeAttr' with 
+value 'debug', 
+attribute 'org.jetbrain
+s.kotlin.platform.type'
+ with value 
+'androidJvm' but:
+          - No 
+variants exist.
+
+* Try:
+> Creating consumable 
+variants is explained 
+in more detail at https
+://docs.gradle.org/8.14
+.3/userguide/declaring_
+dependencies.html#sec:r
+esolvable-consumable-co
+nfigs.
+> Review the variant 
+matching algorithm at h
+ttps://docs.gradle.org/
+8.14.3/userguide/varian
+t_attributes.html#sec:a
+bm_algorithm.
+> Run with 
+--stacktrace option to 
+get the stack trace.
+> Run with --debug 
+option to get more log 
+output.
+> Run with --scan to 
+get full insights.
+> Get more help at http
+s://help.gradle.org.
+
+BUILD FAILED in 4s
+Watched directory hierarchies: []

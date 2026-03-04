@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">SurgiAI WoundCare</string>
+    <string name="title_activity_main">SurgiAI WoundCare</string>
+    <string name="package_name">com.surgical.woundcare</string>
+    <string name="custom_url_scheme">com.surgical.woundcare</string>
+</resources>
