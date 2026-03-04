@@ -139,6 +139,9 @@ DEFAULT_FROM_EMAIL = f'{os.getenv("SMTP_FROM_NAME", "Surgical Wound Care")} <{os
 SMTP_FROM_EMAIL = os.getenv("SMTP_FROM_EMAIL", "")
 SMTP_FROM_NAME = os.getenv("SMTP_FROM_NAME", "Surgical Wound Care")
 
+# Prevent SMTP from hanging the gunicorn worker (10 second limit)
+EMAIL_TIMEOUT = 10
+
 # ─────────────────────────────────────────────────────────────
 # Templates
 # ─────────────────────────────────────────────────────────────
