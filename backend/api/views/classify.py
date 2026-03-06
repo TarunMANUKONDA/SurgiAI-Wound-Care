@@ -36,35 +36,41 @@ MODEL_NAMES = [
     'gemini-1.5-flash',
 ]
 
-CLASSIFY_PROMPT = """This is a medical wound photograph. Analyze the WOUND TISSUE ONLY.
+CLASSIFY_PROMPT = """Analyze this medical wound photograph with clinical precision.
 
-Look at the open wound area (ignore all surrounding skin, bandages, and background).
-Inside the wound, estimate what percentage of the wound interior is each tissue type:
+STEP 1: IDENTIFY THE WOUND BED
+Locate the exact boundaries of the open wound (the 'wound bed').
+EXCLUDE and IGNORE the following as background (0%):
+- All surrounding skin (periwound skin), even if it's red or inflamed.
+- Bandages, gauze, medical tape, or rulers.
+- Background surfaces (bedsheets, floors, clothing).
+- Body hair, shadows, or glare.
 
-RED tissue = granulation = beefy dark-red, moist, bumpy/nodular surface (like raw meat)
-PINK tissue = epithelium = pale pink, smooth thin film, new skin growing from edges
-YELLOW tissue = slough = stringy, wet, creamy-yellow fibrin strands (like wet pasta)
-WHITE tissue = dense fibrin = thick white paste or cottage-cheese texture inside wound
-BLACK tissue = necrosis = dry, hard, leathery dark-brown to black dead tissue
+STEP 2: TISSUE ANALYSIS (WOUND BED ONLY)
+Within the boundaries of the wound bed ONLY, estimate the percentage of the area covered by these tissue types:
 
-CRITICAL RULES:
-- Analyze ONLY the wound interior, NOT the surrounding skin
-- Do not count periwound skin as pink epithelium
-- Red bumpy/nodular texture = granulation (RED), not redness of skin
-- If you see mixed colors, estimate the area percentage of each
-- All five percentages MUST add up to exactly 100
-- Also note: any visible fluid/discharge inside wound, and overall wound redness level
+RED tissue (Granulation): Beefy, dark-red, moist, bumpy/nodular surface (looks like raw hamburger meat).
+PINK tissue (Epithelium): Pale pink, smooth thin film, often growing in from edges (regrowing skin).
+YELLOW tissue (Slough): Stringy, wet, creamy-yellow or grayish fibrin strands (non-viable tissue).
+WHITE tissue (Dense Fibrin): Thick white paste, "cottage cheese" texture, or dry white plaques.
+BLACK tissue (Necrosis/Eschar): Dry, hard, leathery dark-brown or black dead tissue.
 
-Return ONLY this JSON with no markdown or extra text:
+CRITICAL CLINICAL RULES:
+- The total of RED + PINK + YELLOW + WHITE + BLACK must equal exactly 100%.
+- Surrounding healthy skin is NOT PINK tissue. Pink tissue is ONLY new skin INSIDE or at the immediate inner edge of the wound bed.
+- Skin redness (erythema) is NOT RED tissue. Red tissue is ONLY granulation tissue inside the wound bed.
+- If the image contains zero wound (e.g., just healthy skin), set all percentages to 0 and state "No wound detected" in notes.
+
+Return ONLY the following JSON with no markdown:
 {
   "tissue_composition": {"red": 0-100, "pink": 0-100, "yellow": 0-100, "black": 0-100, "white": 0-100},
-  "redness_level": 0-100,
-  "discharge_detected": true or false,
-  "discharge_type": "none" or "clear" or "yellow" or "green" or "bloody",
-  "edge_quality": 0-100,
+  "redness_level": 0-100 (degree of periwound skin redness),
+  "discharge_detected": true/false,
+  "discharge_type": "none/clear/yellow/green/bloody",
+  "edge_quality": 0-100 (100=healthy and migrating, 0=rolled/stalled),
   "wound_location": [ymin, xmin, ymax, xmax],
   "confidence": 0-100,
-  "notes": "describe exactly what tissue colors/textures you saw in the wound"
+  "notes": "Clearly describe the wound bed boundaries vs the background, and explain why you assigned the tissue percentages you did."
 }"""
 
 
