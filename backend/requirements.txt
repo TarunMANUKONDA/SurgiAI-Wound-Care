@@ -16,7 +16,7 @@ python-dotenv==1.2.1
 
 # Auth / Security
 passlib==1.7.4
-bcrypt==4.1.3
+bcrypt==3.2.2
 
 # AI / ML
 google-generativeai==0.8.3
