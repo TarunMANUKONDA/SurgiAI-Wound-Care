@@ -1,6 +1,8 @@
 import random
+import os
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 from django.conf import settings
-from django.core.mail import send_mail
 
 
 def generate_otp() -> str:
@@ -8,30 +10,38 @@ def generate_otp() -> str:
     return str(random.randint(100000, 999999))
 
 
-def _send_via_smtp(to_email: str, subject: str, html_body: str, text_body: str) -> bool:
-    """Send email via SMTP – handles Gmail, works locally and on Render."""
+def _send_via_sendgrid(to_email: str, subject: str, html_body: str, text_body: str) -> bool:
+    """Send email via SendGrid HTTP API (works on Render free tier)."""
+    api_key = os.getenv("SENDGRID_API_KEY", "")
+    from_email = os.getenv("SMTP_FROM_EMAIL", "")
+
+    if not api_key or not from_email:
+        print("❌ SendGrid: SENDGRID_API_KEY or SMTP_FROM_EMAIL not configured.")
+        return False
+
     try:
-        sent_count = send_mail(
+        message = Mail(
+            from_email=from_email,
+            to_emails=to_email,
             subject=subject,
-            message=text_body,
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[to_email],
-            html_message=html_body,
-            fail_silently=False,
+            html_content=html_body,
+            plain_text_content=text_body,
         )
-        if sent_count > 0:
-            print(f"✅ Email sent to {to_email} via SMTP.")
+        sg = SendGridAPIClient(api_key)
+        response = sg.send(message)
+        if response.status_code in (200, 201, 202):
+            print(f"✅ Email sent to {to_email} via SendGrid (status {response.status_code}).")
             return True
         else:
-            print(f"❌ SMTP send failed: No email sent.")
+            print(f"❌ SendGrid returned status {response.status_code}: {response.body}")
             return False
     except Exception as e:
-        print(f"❌ SMTP send failed: {e}")
+        print(f"❌ SendGrid send failed: {e}")
         return False
 
 
 def send_otp_email(to_email: str, otp_code: str, user_name: str = "User") -> bool:
-    """Send OTP verification email via SMTP."""
+    """Send OTP verification email via SendGrid."""
     subject = f"Your Verification Code: {otp_code}"
     expiry = settings.OTP_EXPIRY_MINUTES
 
@@ -61,14 +71,14 @@ def send_otp_email(to_email: str, otp_code: str, user_name: str = "User") -> boo
     """
     text_body = f"Email Verification\n\nHi {user_name},\n\nYour code: {otp_code}\nExpires in {expiry} minutes.\n"
 
-    sent = _send_via_smtp(to_email, subject, html_body, text_body)
+    sent = _send_via_sendgrid(to_email, subject, html_body, text_body)
     if not sent:
         print(f"📧 [DEV fallback] OTP for {to_email}: {otp_code}")
     return sent
 
 
 def send_password_reset_email(to_email: str, otp_code: str, user_name: str = "User") -> bool:
-    """Send password-reset OTP email via SMTP."""
+    """Send password-reset OTP email via SendGrid."""
     subject = f"Password Reset Code: {otp_code}"
     expiry = settings.OTP_EXPIRY_MINUTES
 
@@ -98,7 +108,7 @@ def send_password_reset_email(to_email: str, otp_code: str, user_name: str = "Us
     """
     text_body = f"Password Reset\n\nHi {user_name},\n\nYour reset code: {otp_code}\nExpires in {expiry} minutes.\n"
 
-    sent = _send_via_smtp(to_email, subject, html_body, text_body)
+    sent = _send_via_sendgrid(to_email, subject, html_body, text_body)
     if not sent:
         print(f"📧 [DEV fallback] Reset OTP for {to_email}: {otp_code}")
     return sent
