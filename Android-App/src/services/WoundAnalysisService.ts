@@ -807,14 +807,14 @@ class WoundAnalysisService {
       return { statusLabel: 'Needs Monitoring', statusColor: '#F2C94C' };
     }
 
-    // Score-based bands — updated to match new stricter scoring formula
-    if (score >= 80) return { statusLabel: 'Healing Excellently', statusColor: '#27AE60' };
-    if (score >= 65) return { statusLabel: 'Healing Well', statusColor: '#219653' };
-    if (score >= 50) return { statusLabel: 'Stable / Progressing', statusColor: '#2F80ED' };
-    if (score >= 35) return { statusLabel: 'Needs Monitoring', statusColor: '#F2C94C' };
-    if (score >= 20) return { statusLabel: 'Stalled — Review Care', statusColor: '#F2994A' };
+    // Score-based bands — updated to match exact spec thresholds
+    if (score >= 85) return { statusLabel: 'Healing Excellently', statusColor: '#27AE60' };
+    if (score >= 70) return { statusLabel: 'Healing Well', statusColor: '#219653' };
+    if (score >= 55) return { statusLabel: 'Stable / Progressing', statusColor: '#2F80ED' };
+    if (score >= 40) return { statusLabel: 'Needs Monitoring', statusColor: '#F2C94C' };
+    if (score >= 25) return { statusLabel: 'Stalled / Concern', statusColor: '#F2994A' };
 
-    return { statusLabel: 'At Risk', statusColor: '#EB5757' };
+    return { statusLabel: 'At Risk / Critical', statusColor: '#EB5757' };
   }
 
   compareWounds(current: WoundAnalysisResult, previous: WoundAnalysisResult, daysBetween: number): ComparisonResult {

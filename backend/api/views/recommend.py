@@ -1,5 +1,5 @@
 import json
-
+import time
 import google.generativeai as genai
 from django.conf import settings
 from rest_framework.decorators import api_view
@@ -30,15 +30,7 @@ def get_recommendations(request):
     try:
         tissue = clf.wound.tissue_composition or {}
         if not isinstance(tissue, dict):
-            w = wound_type.lower()
-            if 'normal' in w or 'healing' in w:
-                tissue = {"pink": 70, "red": 30, "yellow": 0, "black": 0, "white": 0}
-            elif 'delayed' in w:
-                tissue = {"pink": 30, "red": 40, "yellow": 30, "black": 0, "white": 0}
-            elif 'infection' in w:
-                tissue = {"pink": 0, "red": 50, "yellow": 40, "black": 10, "white": 0}
-            else:
-                tissue = {"pink": 0, "red": 20, "yellow": 30, "black": 50, "white": 0}
+            tissue = {"pink": 0, "red": 0, "yellow": 0, "black": 0, "white": 0}
 
         pink  = float(tissue.get('pink', 0))
         red   = float(tissue.get('red', 0))

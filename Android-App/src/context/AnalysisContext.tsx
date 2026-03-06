@@ -131,10 +131,14 @@ export const AnalysisProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         console.log('Fetched remote history:', data.wounds);
 
         const remoteHistory: StoredWoundData[] = data.wounds.map((w: any) => {
-          // Backend returns paths like: uploads/wound_xxx.jpg
+          // Backend returns either full absolute URLs (production) or relative paths (local)
           const apiHost = (import.meta.env.VITE_API_HOST || 'http://localhost:8000').replace(/\/+$/, '');
-          const cleanPath = w.image_path.replace(/^\/+/, '');
-          const imageUrl = w.image_path.includes('http') ? w.image_path : `${apiHost}/${cleanPath}`;
+          let imageUrl = w.image_path;
+
+          if (imageUrl && !imageUrl.startsWith('http')) {
+            const cleanPath = imageUrl.replace(/^\/+/, '');
+            imageUrl = `${apiHost}/${cleanPath}`;
+          }
           console.log('Wound image mapping:', { original: w.image_path, final: imageUrl });
 
           // Use persisted analysis if available (Fixes "score not updating" issue)
@@ -217,10 +221,14 @@ export const AnalysisProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       const data = await backendAPI.getCases();
       if (data.success && Array.isArray(data.cases)) {
         const mappedCases = data.cases.map((c: any) => {
-          // Backend returns paths like: uploads/wound_xxx.jpg
+          // Backend returns either full absolute URLs (production) or relative paths (local)
           const apiHost = (import.meta.env.VITE_API_HOST || 'http://localhost:8000').replace(/\/+$/, '');
-          const cleanPath = c.latest_image ? c.latest_image.replace(/^\/+/, '') : '';
-          const imageUrl = c.latest_image ? (c.latest_image.includes('http') ? c.latest_image : `${apiHost}/${cleanPath}`) : undefined;
+          let imageUrl = c.latest_image;
+
+          if (imageUrl && !imageUrl.startsWith('http')) {
+            const cleanPath = imageUrl.replace(/^\/+/, '');
+            imageUrl = `${apiHost}/${cleanPath}`;
+          }
           console.log('Case image mapping:', { original: c.latest_image, final: imageUrl });
           return {
             ...c,
