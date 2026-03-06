@@ -49,6 +49,7 @@ def _user_dict(user):
 @api_view(['POST'])
 def signup(request):
     """Send OTP — user record is created only after OTP is confirmed."""
+    print(f"DEBUG: signup attempt for email: {request.data.get('email')}")
     data = request.data
     email = data.get('email', '').lower().strip()
     name = data.get('name', '').strip()
